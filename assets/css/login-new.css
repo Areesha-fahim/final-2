@@ -1,0 +1,439 @@
+/* Modal styling */
+.login-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  animation: modalFadeIn 0.3s ease;
+}
+
+.login-modal .modal-content {
+  background: linear-gradient(145deg, #ffffff, #f5f7fa);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 480px;
+  margin: 20px;
+  position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+              0 8px 24px -12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.modal-header {
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.tab-switcher {
+  display: flex;
+  gap: 24px;
+  position: relative;
+}
+
+.tab-btn {
+  font-size: 18px;
+  font-weight: 600;
+  color: #666;
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  color: var(--bright-navy-blue);
+}
+
+.tab-btn.active {
+  color: var(--bright-navy-blue);
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--bright-navy-blue);
+  border-radius: 3px;
+  animation: slideIn 0.3s ease;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-modal:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #333;
+}
+
+.login-form, .signup-form {
+  padding: 32px;
+  display: none;
+  animation: formFadeIn 0.3s ease;
+}
+
+.login-form.active, .signup-form.active {
+  display: block;
+}
+
+.welcome-text {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.welcome-text h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.welcome-text p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.social-login {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid #e1e5e9;
+  border-radius: 12px;
+  background: white;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.social-btn:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.social-btn ion-icon {
+  font-size: 22px;
+}
+
+.social-btn.google {
+  color: #DB4437;
+  border-color: rgba(219, 68, 55, 0.2);
+}
+
+.social-btn.facebook {
+  color: #4267B2;
+  border-color: rgba(66, 103, 178, 0.2);
+}
+
+.divider {
+  text-align: center;
+  margin: 28px 0;
+  position: relative;
+}
+
+.divider::before, .divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 80px);
+  height: 1px;
+  background: #e1e5e9;
+}
+
+.divider::before {
+  left: 0;
+}
+
+.divider::after {
+  right: 0;
+}
+
+.divider span {
+  background: #fff;
+  padding: 0 16px;
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.input-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon ion-icon {
+  position: absolute;
+  left: 16px;
+  color: #666;
+  font-size: 20px;
+  transition: color 0.3s ease;
+}
+
+.input-icon input {
+  width: 100%;
+  padding: 14px 48px;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: #fff;
+}
+
+.input-icon input:focus {
+  border-color: var(--bright-navy-blue);
+  box-shadow: 0 0 0 4px rgba(var(--bright-navy-blue-rgb), 0.1);
+  outline: none;
+}
+
+.input-icon input:focus + ion-icon {
+  color: var(--bright-navy-blue);
+}
+
+.toggle-password {
+  position: absolute;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.toggle-password:hover {
+  color: #333;
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px 0;
+}
+
+.remember-me, .terms-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: var(--bright-navy-blue);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bright-navy-blue);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(var(--bright-navy-blue-rgb), 0.3);
+}
+
+.btn-primary:hover {
+  background: var(--bright-navy-blue-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--bright-navy-blue-rgb), 0.4);
+}
+
+/* Custom checkbox style */
+.checkmark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e1e5e9;
+  border-radius: 6px;
+  position: relative;
+  margin-right: 8px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked + .checkmark {
+  background: var(--bright-navy-blue);
+  border-color: var(--bright-navy-blue);
+}
+
+input[type="checkbox"]:checked + .checkmark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Success message styling */
+.login-confirmation {
+  display: none;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: white;
+  padding: 16px 24px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.login-confirmation ion-icon {
+  font-size: 24px;
+  color: #4CAF50;
+}
+
+.confirmation-title {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.confirmation-message {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Animations */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes formFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .login-modal .modal-content {
+    margin: 16px;
+    border-radius: 20px;
+  }
+
+  .modal-header {
+    padding: 20px;
+  }
+
+  .login-form, .signup-form {
+    padding: 24px;
+  }
+
+  .welcome-text h2 {
+    font-size: 24px;
+  }
+
+  .social-btn {
+    padding: 12px;
+  }
+
+  .input-icon input {
+    padding: 12px 40px;
+  }
+
+  .form-options {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}

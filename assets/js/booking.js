@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.getElementById('bookingForm');
     const checkInInput = document.getElementById('checkIn');
     const checkOutInput = document.getElementById('checkOut');
+    const confirmationDiv = document.getElementById('bookingConfirmation');
 
     // Set minimum date for check-in to today
     const today = new Date().toISOString().split('T')[0];
@@ -18,6 +19,11 @@ document.addEventListener('DOMContentLoaded', function() {
             checkOutInput.value = checkInInput.value;
         }
     });
+
+    // Close confirmation function
+    window.closeConfirmation = function() {
+        confirmationDiv.classList.remove('show');
+    };
 
     // Open modal
     openBtn.addEventListener('click', function() {
@@ -47,6 +53,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Close confirmation function
+    window.closeConfirmation = function() {
+        const confirmation = document.getElementById('bookingConfirmation');
+        confirmation.classList.remove('show');
+    }
+
     // Handle form submission
     bookingForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -61,35 +73,80 @@ document.addEventListener('DOMContentLoaded', function() {
             tourType: document.getElementById('tourType').value
         };
 
-        // Calculate total days
-        const startDate = new Date(formData.checkIn);
-        const endDate = new Date(formData.checkOut);
-        const totalDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+        // Format dates
+        const checkInDate = new Date(formData.checkIn);
+        const checkOutDate = new Date(formData.checkOut);
+        const formattedCheckIn = checkInDate.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+        const formattedCheckOut = checkOutDate.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
 
-        // Simple price calculation (you can modify this according to your needs)
-        const basePrice = 100; // Base price per day
-        const adultPrice = basePrice * totalDays * parseInt(formData.adults);
-        const childPrice = (basePrice * 0.5) * totalDays * parseInt(formData.children);
-        const totalPrice = adultPrice + childPrice;
+        // Calculate price
+        const basePrice = 100;
+        const days = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+        const totalPrice = basePrice * days * (parseInt(formData.adults) + parseInt(formData.children) * 0.5);
 
-        // Show booking confirmation
-        const confirmationMessage = `
-            Booking Summary:
-            Destination: ${formData.destination}
-            Check-in: ${formData.checkIn}
-            Check-out: ${formData.checkOut}
-            Duration: ${totalDays} days
-            Adults: ${formData.adults}
-            Children: ${formData.children}
-            Tour Type: ${formData.tourType}
-            Total Price: $${totalPrice}
+        // Get confirmation elements
+        const confirmationElement = document.getElementById('bookingConfirmation');
+        const confirmationContent = document.querySelector('.confirmation-content');
 
-            Thank you for booking with us!
+        // Update confirmation content
+        confirmationContent.innerHTML = `
+            <ion-icon name="checkmark-circle-outline" class="confirmation-icon"></ion-icon>
+            <div class="confirmation-title">Booking Confirmed!</div>
+            <div class="confirmation-message">Great choice! Your amazing journey awaits.</div>
+            <div class="booking-summary">
+                <div class="summary-header">Booking Details</div>
+                <div class="summary-details">
+                    <div class="detail-item">
+                        <ion-icon name="location-outline"></ion-icon>
+                        <span>${formData.destination.charAt(0).toUpperCase() + formData.destination.slice(1)}</span>
+                    </div>
+                    <div class="detail-item">
+                        <ion-icon name="calendar-outline"></ion-icon>
+                        <span>${formattedCheckIn} - ${formattedCheckOut}</span>
+                    </div>
+                    <div class="detail-item">
+                        <ion-icon name="people-outline"></ion-icon>
+                        <span>${formData.adults} ${formData.adults > 1 ? 'Adults' : 'Adult'}${formData.children > 0 ? `, ${formData.children} ${formData.children > 1 ? 'Children' : 'Child'}` : ''}</span>
+                    </div>
+                    <div class="detail-item">
+                        <ion-icon name="airplane-outline"></ion-icon>
+                        <span>${formData.tourType}</span>
+                    </div>
+                </div>
+                <div class="price-summary">
+                    <div class="total-price">Total Amount: $${totalPrice}</div>
+                </div>
+            </div>
+            <div class="confirmation-footer">
+                <p class="email-notification">
+                    <ion-icon name="mail-outline"></ion-icon>
+                    Confirmation details have been sent to your email
+                </p>
+                <p class="contact-info">
+                    <ion-icon name="call-outline"></ion-icon>
+                    Our team will contact you shortly
+                </p>
+            </div>
+            <button class="btn btn-primary" onclick="closeConfirmation()">Done</button>
         `;
 
-        alert(confirmationMessage);
+        // Show confirmation and close modal
         closeModal();
+        confirmationElement.classList.add('show');
         bookingForm.reset();
+
+        // Auto-hide confirmation after 10 seconds
+        setTimeout(() => {
+            confirmationElement.classList.remove('show');
+        }, 10000);
     });
 
     // Input validation for adults and children
